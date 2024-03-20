@@ -98,3 +98,8 @@ SELECT JOB_CODE
     ;
 -- 부서별 보너스를 받는 사원이 없는 부서들만 조회
 
+SELECT DEPT_CODE
+FROM EMPLOYEE
+GROUP BY DEPT_CODE
+HAVING COUNT(BONUS) != COUNT(*) 
+;

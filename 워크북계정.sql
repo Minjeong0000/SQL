@@ -74,7 +74,8 @@ FROM
 -- 지도 교수를 배정받지 못한 학생의 수는 몇 명 정도 되는지 알아내는 SQL문을 작성하시오
 SELECT COUNT(*) AS "지도교수없음"
 FROM TB_STUDENT
-WHERE COACH_PROFESSOR_NO IS NULL;
+WHERE COACH_PROFESSOR_NO IS NULL
+;
 
 -- 12번
 -- 학번이 A112113인 김고운 학생의 년도 별 평점을 구하는 SQL문을 작성하시오.
@@ -85,10 +86,18 @@ WHERE STUDENT_NO LIKE 'A112113';
 
 -- 13번
 -- 학과 별 휴학생 수를 파악하고자 한다. 학과 번호와 휴학생 수를 표시하는 SQL문장을 작성하시오.
-SELECT DEPARTMENT_NO 
+SELECT DEPARTMENT_NO , COUNT(*)
 FROM TB_STUDENT
 WHERE ABSENCE_YN LIKE 'Y'
-ORDER BY 1;
+GROUP BY DEPARTMENT_NO
+ORDER BY DEPARTMENT_NO
+;
+/* 
+SELECT DEPARTMENT_NO,STUDENT_NAME, ABSENCE_YN
+FROM TB_STUDENT
+ORDER BY DEPARTMENT_NO
+;
+*/
 
 -- COUNT(DECODE(ABSENCE_YN, 'Y', 1, NULL)) 의 부연설명
 -- 만일 ABSENCE_YN의 값이 'Y'였을 경우 COUNT(1)이 되어 갯수를 세게 되고
