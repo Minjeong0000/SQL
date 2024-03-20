@@ -66,7 +66,7 @@ FROM EMPLOYEE;
 */
 SELECT LTRIM('   KH') FROM DUAL;
 SELECT LTRIM('0001234560', '0') FROM DUAL;
-SELECT LTRIM(' 123123KH', '312') FROM DUAL;
+SELECT LTRIM('123123KH', '123') FROM DUAL;
 
 SELECT RTRIM('KH   ') AS "X" FROM DUAL;
 SELECT RTRIM('00012300004560000', '0' ) FROM DUAL;
@@ -450,8 +450,131 @@ SELECT
     ,DECODE(DEPT_CODE,'D1','개발1팀','D2','개발2팀','D9','영업1팀') AS 부서명
 FROM EMPLOYEE;
 
+--사원명,직급코드,직급명 조회(직급명은 아무렇게나 작성)
+
 SELECT
     EMP_NAME
     ,JOB_CODE
-    ,DECODE(JOB_CODE,'J1','사장','J2','부장','J3','팀장','J4','대리','J5','사원','J6','인턴','J7','알바')
+    ,DECODE(
+    JOB_CODE
+    ,'J1','사장'
+    ,'J2','부장'
+    ,'J3','팀장'
+    ,'J4','대리'
+    ,'J5','사원'
+    ,'J6','인턴'
+    ,'J7','알바'
+    )AS 직급명
 FROM EMPLOYEE;
+
+/*
+    2) CASE
+        [문법]
+            CASE WHEN 조건식 1 THEN 결과값 1
+                 WHEN 조건식 2 THEN 결과값 2
+                 ...
+                 ELSE 결과값 N
+            END
+*/
+--사원명,직급코드,직급명 조회(직급명은 아무렇게나 작성)
+SELECT
+    EMP_NAME
+    ,JOB_CODE
+    ,CASE
+        WHEN JOB_CODE ='J1' THEN '사장'
+        WHEN JOB_CODE ='J2' THEN '5장'
+        WHEN JOB_CODE ='J3' THEN '6장'
+        WHEN JOB_CODE ='J4' THEN '7장'
+        ELSE '해당사항없음'
+    END AS 직급명
+FROM EMPLOYEE
+;
+
+--실습문제
+--사원명, 월급,초/중/고/특급 구분(급여가 300아래면 초급, 500까지는 중급, 700까지는 고급, 그외에는 특급)
+SELECT
+    EMP_NAME
+    ,SALARY
+    ,CASE
+        WHEN SALARY <= 3000000 THEN '초급'
+        WHEN SALARY <= 5000000 THEN '중급'
+        WHEN SALARY <= 7000000 THEN '고급'
+    ELSE '특급'
+END AS 구분
+FROM EMPLOYEE
+ORDER BY SALARY DESC;
+
+--사원명,주민번호,성별 조회
+--내 풀이
+SELECT
+    EMP_NAME
+    ,EMP_NO
+    ,CASE
+        WHEN SUBSTR(EMP_NO,8,1) = 1 THEN '남성'
+        WHEN SUBSTR(EMP_NO,8,1) = 2 THEN '여성'
+    ELSE '해당없음'
+END AS 성별
+FROM EMPLOYEE; 
+
+--강사님풀이
+SELECT
+    EMP_NAME
+    ,EMP_NO
+    ,CASE
+        WHEN EMP_NO LIKE '_______1%' THEN '남성'
+        WHEN EMP_NO LIKE '_______2%' THEN '여성'
+    ELSE '외국인'
+END AS 성별
+FROM EMPLOYEE 
+ORDER BY SALARY DESC;
+/*
+    <그룹 함수> SUM,AVG,COUNT...
+        대량의 데이터들로 집계나 통계 같은 작업을 처리해야 하는 경우 사용되는 함수들이다.
+        모든 그룹 함수는 NULL 값을 자동으로 제외하고 값이 있는 것들만 계산을 한다.
+        따라서 AVG 함수를 사용할 때는 반드시 NVL() 함수와 함께 사용하는 것을 권장한다.
+        
+        1) SUM
+            [문법]
+                SUM(NUMBER)
+                
+            - 해당 칼럼 값들의 총 합계를 반환한다.
+        
+/*
+        2) AVG
+            [문법]
+                AVG(NUMBER)
+            
+            - 해당 컬럼 값들의 평균을 구해서 반환한다.
+*/
+SELECT AVG(SALARY)
+FROM EMPLOYEE
+;
+--평균을 소수점없이?
+SELECT ROUND(AVG(SALARY))
+FROM EMPLOYEE
+;
+
+/*
+        3) MIN / MAX
+            [문법]
+                MIN/MAX(모든 타입 컬럼)
+            
+            - MIN : 해당 컬럼 값들 중에 가장 작은 값을 반환한다.
+            - MAX : 해당 컬럼 값들 중에 가장 큰 값을 반환한다.
+*/
+SELECT MIN(SALARY)
+FROM EMPLOYEE
+;
+
+
+/*
+        4) COUNT
+            [문법]
+                COUNT(*|컬럼명|DISTINCT 컬럼명)
+            
+            - 컬럼 또는 행의 개수를 세서 반환하는 함수이다.
+            - COUNT(*) : 조회 결과에 해당하는 모든 행의 개수를 반환한다.
+            - COUNT(컬럼명) : 제시한 컬럼 값이 NULL이 아닌 행의 개수를 반환한다.
+            - COUNT(DISTINCT 컬럼명) 해당 컬럼 값의 중복을 제거한 행의 개수를 반환한다. 
+*/ 
+
