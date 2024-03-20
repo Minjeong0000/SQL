@@ -1,0 +1,50 @@
+--연습용
+--MEMBER TABLE 생성 (ID, PWD, NICK 3개 칼럼)
+CREATE TABLE MEMBER(
+    ID VARCHAR2(100)    --ID칼럼 만듦. 타입은 가변문자열, 최대 100바이트
+    ,PWD VARCHAR2(100)  --PWD칼럼 만듦. 타입은 가변문자열, 최대 100바이트
+    ,NICK VARCHAR2(100) --NICK칼럼 만듦. 타입은 가변문자열, 최대 100바이트
+    );
+--데이터 생성(CREATE )
+INSERT INTO MEMBER(ID,PWD,NICK) VALUES('USER01','1111','NICK01');
+INSERT INTO MEMBER(ID,PWD,NICK) VALUES('USER02','2222','NICK02');
+INSERT INTO MEMBER(ID,PWD,NICK) VALUES('USER03','3333','NICK03');
+
+--데이터 읽기 (READ)
+SELECT *FROM MEMBER;
+
+--데이터 수정(UPDATE)
+UPDATE MEMBER SET PWD = '7777'; --MEMBER테이블의 모든 회원 비번을 7777로 바꿈
+
+--데이터 삭제(DELETE)
+DELETE MEMBER;--데ㅣㅇ터만 삭제, 테이블은 남아있음
+
+--테이블 삭제
+DROP TABLE MEMBER;--X테이블 자체를 삭제함.데이터도 같이 삭제됨
+
+
+----------------------
+
+--테이블 생성
+CREATE TABLE HELLO(
+    ID VARCHAR2(100)
+    , PWD VARCHAR2(100)
+);
+--데이터 넣기
+INSERT INTO HELLO(ID,PWD)
+VALUES('USER01','1234');
+
+--데이터 조회
+SELECT ID, PWD  FROM HELLO;
+SELECT ID       FROM HELLO;
+SELECT PWD      FROM HELLO;
+SELECT *        FROM HELLO;
+
+--데이터 수정
+UPDATE HELLO SET PWD ='9999' WHERE ID = 'USER01';
+
+--데이터 삭제
+DELETE HELLO WHERE ID = 'USER01';
+
+--테이블 삭제
+DROP TABLE HELLO;
